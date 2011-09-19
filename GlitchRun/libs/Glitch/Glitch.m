@@ -48,6 +48,7 @@ NSString * AccessTokenSavePath() {
     self = [super init];
     if (self) {
         _sessionDelegate = delegate;
+        _authenticating = NO;
     }
     
     return self;
@@ -67,6 +68,8 @@ NSString * AccessTokenSavePath() {
 // The auth server includes this value when redirecting the user-agent back to the client.
 - (void)authorizeWithScope:(NSString*)scope andState:(NSString*)state
 {
+    _authenticating = YES;
+    
     // Set scope to identity if we don't have it
     NSString * serviceScope = scope ? scope : @"identity";
     
@@ -117,6 +120,8 @@ NSString * AccessTokenSavePath() {
         NSDictionary * params = [GCRequest deserializeParams:fragment];
         NSString * accessToken = [params valueForKey:@"access_token"];
         
+        _authenticating = NO;
+        
         if (accessToken)
         {
             // Successfully logged in! Yay!
@@ -152,9 +157,10 @@ NSString * AccessTokenSavePath() {
     }
 }
 
--(BOOL)isAuthenticated
+
+- (BOOL)isAuthenticated
 {
-    return _accessToken != nil;
+    return !_authenticating && _accessToken;
 }
 
 
@@ -210,6 +216,8 @@ NSString * AccessTokenSavePath() {
             // Ensure that we're ok! (the number is 1)
             if (ok && [ok isKindOfClass:[NSNumber class]] && [(NSNumber*)ok boolValue])
             {
+                _authenticating = NO;
+                
                 if ([_sessionDelegate respondsToSelector:@selector(glitchLoginSuccess)])
                 {
                     [_sessionDelegate glitchLoginSuccess];
