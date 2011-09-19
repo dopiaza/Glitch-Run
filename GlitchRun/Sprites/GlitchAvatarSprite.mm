@@ -233,30 +233,37 @@
         switch (state) 
         {
             case GlitchAvatarStateIdle:
+                NSLog(@"Show animation: Idle");
                 [self showAnimation:GlitchAvatarAnimationTypeIdle withRepeat:YES];
                 break;
 
             case GlitchAvatarStateRunning:
+                NSLog(@"Show animation: Running, Old animation: %i",self.avatarState);
                 [self showAnimation:GlitchAvatarAnimationTypeWalk2x withRepeat:YES];
                 break;
                 
             case GlitchAvatarStateJumpingUp:
+                NSLog(@"Show animation: JumpOverLift");
                 [self showAnimation:GlitchAvatarAnimationTypeJumpOverLift withRepeat:NO];
                 break;
                 
             case GlitchAvatarStateJumpingDown:
+                NSLog(@"Show animation: JumpOverFall");
                 [self showAnimation:GlitchAvatarAnimationTypeJumpOverFall withRepeat:NO];
                 break;
                 
             case GlitchAvatarStateLanding:
+                NSLog(@"Show animation: Landing");
                 [self showAnimation:GlitchAvatarAnimationTypeJumpOverLand withRepeat:NO];
                 break;
                 
             case GlitchAvatarStateCrashed:
+                NSLog(@"Show animation: Crashed");
                 [self showAnimation:GlitchAvatarAnimationTypeHit1 withRepeat:YES];
                 break;
                 
             default:
+                NSLog(@"Show animation: Idle");
                 [self showAnimation:GlitchAvatarAnimationTypeIdle withRepeat:YES];
                 break;
         }
@@ -336,7 +343,7 @@
 -(void)landAndWhenComplete:(void(^)(void))landComplete
 {
     _avatarState = GlitchAvatarStateManual;
-    [self showAnimation:GlitchAvatarAnimationTypeJumpOverLand withCompletionBlock:landComplete];
+    [self showAnimation:GlitchAvatarAnimationTypeWalk2x withCompletionBlock:landComplete];
 }
 
 -(void)run
@@ -393,7 +400,7 @@
             if (onGround)
             {
                 // We must have landed somewhere
-                [self run];
+                // [self run];
             }
             else
             {
@@ -409,9 +416,11 @@
         case GlitchAvatarStateJumpingDown:
             if (onGround)
             {
+                NSLog(@"Landed");
                 // We've landed
                 [self landAndWhenComplete:^(void) 
                 {
+                    NSLog(@"Run");
                     [self run];
                 }];
             }

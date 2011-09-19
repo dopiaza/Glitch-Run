@@ -54,12 +54,12 @@ typedef enum
 typedef enum
 {
     GlitchAvatarStateIdle = 1,
-    GlitchAvatarStateManual,
-    GlitchAvatarStateRunning,
-    GlitchAvatarStateJumpingUp,
-    GlitchAvatarStateJumpingDown,
-    GlitchAvatarStateLanding,
-    GlitchAvatarStateCrashed
+    GlitchAvatarStateManual, // 2
+    GlitchAvatarStateRunning, // 3
+    GlitchAvatarStateJumpingUp, // 4
+    GlitchAvatarStateJumpingDown, // 5
+    GlitchAvatarStateLanding, // 6
+    GlitchAvatarStateCrashed // 7
     
 } GlitchAvatarState;
 
