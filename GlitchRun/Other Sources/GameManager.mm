@@ -71,6 +71,12 @@ static GameManager *_sharedGameManager = nil;
     return [[NSUserDefaults standardUserDefaults] floatForKey:@"HiScore"];
 }
 
+-(void)clearCaches
+{
+    [[CCTextureCache sharedTextureCache] removeAllTextures];
+    [CCAnimationCache purgeSharedAnimationCache];
+}
+
 #pragma mark - Scene management
 
 -(void)runScene:(GameSceneId)sceneId

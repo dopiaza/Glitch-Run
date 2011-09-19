@@ -37,6 +37,7 @@ typedef enum
 +(GameManager *)sharedGameManager;
 
 -(void)runScene:(GameSceneId)sceneId;
+-(void)clearCaches;
 
 @property (assign, nonatomic) float lastDistanceRan;
 @property (assign, nonatomic) float hiScore;

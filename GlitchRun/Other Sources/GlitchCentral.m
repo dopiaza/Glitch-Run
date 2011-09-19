@@ -26,6 +26,7 @@
 #import "GlitchAvatarData.h"
 #import "GlitchPlayerInfo.h"
 #import "AppDelegate.h"
+#import "GameManager.h"
 #import "NSDictionary(Glitch).h"
 
 static GlitchCentral *_sharedGlitchCentralInstance;
@@ -154,6 +155,12 @@ static GlitchCentral *_sharedGlitchCentralInstance;
 -(void)logout
 {
     [self.api logout];
+    
+    // Remove all traces of the previous user and cached sprites
+    self.playerInfo = nil;
+    self.animationSet = nil;
+    self.avatarData = nil;
+    [[GameManager sharedGameManager] clearCaches];
 }
 
 -(BOOL)isAuthenticated
