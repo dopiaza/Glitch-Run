@@ -373,13 +373,16 @@ typedef enum
  
 -(void)jumpUp
 {
-    CCLOG(@"Jump!");
-    b2Body *jumperBody = self.jumper.body;
-    
-    b2Vec2 impulse = b2Vec2(0.8, 30.0);
-    b2Vec2 bodyCenter = jumperBody->GetWorldCenter();
-    jumperBody->ApplyLinearImpulse(impulse, bodyCenter); 
-    [self.jumper jumpUp];
+    if (self.gameState == GameStateRunning)
+    {
+        CCLOG(@"Jump!");
+        b2Body *jumperBody = self.jumper.body;
+        
+        b2Vec2 impulse = b2Vec2(0.8, 30.0);
+        b2Vec2 bodyCenter = jumperBody->GetWorldCenter();
+        jumperBody->ApplyLinearImpulse(impulse, bodyCenter); 
+        [self.jumper jumpUp];
+    }
 }
  
 -(void)jumpDown
@@ -421,15 +424,19 @@ typedef enum
             break;
             
         case GameStateRunning:
-            if ([self.jumper canJump])
+            // Ignore if we're already jumping
+            if (self.jumper.avatarState != GlitchAvatarStateJumpingUp)
             {
-                [self jumpUp];
-            }
-            else
-            {
-                // If we're not quite on the ground when the user taps the screen, we buffer the jump request
-                // and jump when we land - this makes the game feel more responsive
-                self.jumpRequest = kJumpBufferTime;
+                if ([self.jumper canJump])
+                {
+                    [self jumpUp];
+                }
+                else 
+                {
+                    // If we're not quite on the ground when the user taps the screen, we buffer the jump request
+                    // and jump when we land - this makes the game feel more responsive
+                    self.jumpRequest = kJumpBufferTime;
+                }
             }
             break;
             
