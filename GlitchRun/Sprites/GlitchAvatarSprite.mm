@@ -33,6 +33,7 @@
 
 @property (retain, nonatomic) GlitchAvatarData *avatarData;
 @property (retain, nonatomic) CCAction *currentAction;
+@property (assign, nonatomic) int updateCounter;
 
 @end
 
@@ -44,6 +45,7 @@
 @synthesize avatarState = _avatarState;
 @synthesize isRetina = _isRetina;
 @synthesize needsPositionAdjust = _needsPositionAdjust;
+@synthesize updateCounter = _updateCounter;
 
 +(id)spriteWithAvatarData:(GlitchAvatarData *)data
 {
@@ -287,7 +289,9 @@
                 NSLog(@"Show animation: Idle");
                 [self showAnimation:GlitchAvatarAnimationTypeIdle withRepeat:YES];
                 break;
+                
         }
+        self.updateCounter = 0;  // Reset this when we get a state change
         _avatarState = state;
     }
 }
@@ -334,16 +338,16 @@
     }
 }
 
--(void)jumpUp
-{
-    [self switchToState:GlitchAvatarStateJumpingUp];
-}
-
 -(void)jumpUpAndWhenComplete:(void(^)(void))jumpComplete
 {
     _avatarState = GlitchAvatarStateManual;
     [self showAnimation:GlitchAvatarAnimationTypeJumpOverLift withCompletionBlock:jumpComplete];
 }
+
+-(void)jumpUp
+{
+    [self switchToState:GlitchAvatarStateJumpingUp];
+}     
 
 -(void)jumpDown
 {
@@ -408,6 +412,8 @@
 
 -(void)decideJumperAnimation
 {
+    self.updateCounter++;
+    
     b2Vec2 v = self.body->GetLinearVelocity();
     
     switch (self.avatarState)
@@ -420,8 +426,13 @@
         case GlitchAvatarStateJumpingUp:
             if (onGround)
             {
-                // We must have landed somewhere
-                // [self run];
+                // We're on the ground. How long have we been here?
+                if (self.updateCounter > 10)
+                {
+                    // A little while, let's break into a run
+                    CCLOG(@"Tired of jumping, let's run!");
+                    [self run];
+                }
             }
             else
             {

@@ -20,7 +20,7 @@
             <key>Piggy</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,597},{156,101}}</string>
+                <string>{{2,655},{156,101}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +111,7 @@
             <key>SignOutButton</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,744},{120,42}}</string>
+                <string>{{316,745},{120,42}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +124,7 @@
             <key>SignOutButtonActive</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,700},{120,42}}</string>
+                <string>{{2,758},{120,42}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -147,6 +147,32 @@
                 <key>sourceSize</key>
                 <string>{249,103}</string>
             </dict>
+            <key>TryAgainButton</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,597},{158,56}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{158,56}}</string>
+                <key>sourceSize</key>
+                <string>{158,56}</string>
+            </dict>
+            <key>TryAgainButtonActive</key>
+            <dict>
+                <key>frame</key>
+                <string>{{160,745},{154,52}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{154,52}}</string>
+                <key>sourceSize</key>
+                <string>{154,52}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -157,7 +183,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:9f71361ebaa1d5f44dc84ef1c5cbf999$</string>
+            <string>$TexturePacker:SmartUpdate:1827bfa7f27866e0e64f65291dc9d4be$</string>
             <key>textureFileName</key>
             <string>MainTextureAtlas-iPhone-hd.png</string>
         </dict>

@@ -21,27 +21,8 @@
 //
 
 
-#import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
-typedef enum
-{
-    GameSceneLoading = 1,
-    GameScenePlayerInfo,
-    GameSceneRun,
-    GameSceneResults,
-    GameSceneError
-} GameSceneId;
-
-
-@interface GameManager : NSObject
-
-+(GameManager *)sharedGameManager;
-
--(void)runScene:(GameSceneId)sceneId;
--(void)clearCaches;
-
-@property (assign, nonatomic) float lastDistanceRan;
-@property (assign, nonatomic) float hiScore;
-@property (assign, nonatomic) BOOL retina;
+@interface ErrorLayer : CCLayer
 
 @end

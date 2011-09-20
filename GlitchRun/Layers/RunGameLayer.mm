@@ -373,7 +373,7 @@ typedef enum
  
 -(void)jumpUp
 {
-    if (self.gameState == GameStateRunning)
+    if (self.gameState == GameStateRunning && self.jumper.avatarState != GlitchAvatarStateJumpingUp)
     {
         CCLOG(@"Jump!");
         b2Body *jumperBody = self.jumper.body;

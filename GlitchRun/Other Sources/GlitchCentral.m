@@ -242,7 +242,7 @@ static GlitchCentral *_sharedGlitchCentralInstance;
 
 -(void)glitchAvatarData:(GlitchAvatarData *)avatarData failedWithError:(NSError *)error
 {
-    // TODO
+    [[GameManager sharedGameManager] runScene:GameSceneError];
 }
 
 

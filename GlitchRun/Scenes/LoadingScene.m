@@ -95,7 +95,8 @@
 
 -(void)playerDataUpdateFailedWithError:(NSError *)error
 {
-    CCLOG(@"Error updating player data: %@", error.description);    
+    CCLOG(@"Error updating player data: %@", error.description);  
+    [[GameManager sharedGameManager] runScene:GameSceneError];
 }
 
 @end

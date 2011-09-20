@@ -21,27 +21,25 @@
 //
 
 
-#import <Foundation/Foundation.h>
+#import "ErrorScene.h"
+#import "ErrorLayer.h"
+#import "GlitchMainBackgroundLayer.h"
 
-typedef enum
+@implementation ErrorScene
+
+- (id)init
 {
-    GameSceneLoading = 1,
-    GameScenePlayerInfo,
-    GameSceneRun,
-    GameSceneResults,
-    GameSceneError
-} GameSceneId;
-
-
-@interface GameManager : NSObject
-
-+(GameManager *)sharedGameManager;
-
--(void)runScene:(GameSceneId)sceneId;
--(void)clearCaches;
-
-@property (assign, nonatomic) float lastDistanceRan;
-@property (assign, nonatomic) float hiScore;
-@property (assign, nonatomic) BOOL retina;
+    self = [super init];
+    if (self) 
+    {
+        GlitchMainBackgroundLayer *backgroundLayer = [GlitchMainBackgroundLayer node];
+        [self addChild:backgroundLayer z:0];
+        
+        ErrorLayer *errorLayer = [ErrorLayer node];
+        [self addChild:errorLayer z:10];
+    }
+    
+    return self;
+}
 
 @end

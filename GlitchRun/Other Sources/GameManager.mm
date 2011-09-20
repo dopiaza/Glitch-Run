@@ -27,6 +27,7 @@
 #import "PlayerInfoScene.h"
 #import "RunScene.h"
 #import "ResultsScene.h"
+#import "ErrorScene.h"
 #import "GB2ShapeCache.h"
 
 static GameManager *_sharedGameManager = nil;
@@ -102,6 +103,10 @@ static GameManager *_sharedGameManager = nil;
             
         case GameSceneResults:
             scene = [ResultsScene node];
+            break;
+            
+        case GameSceneError:
+            scene = [ErrorScene node];
             break;
             
         default:

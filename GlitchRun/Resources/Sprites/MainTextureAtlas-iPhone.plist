@@ -147,6 +147,32 @@
                 <key>sourceSize</key>
                 <string>{119,49}</string>
             </dict>
+            <key>TryAgainButton</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,431},{79,28}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{79,28}}</string>
+                <key>sourceSize</key>
+                <string>{79,28}</string>
+            </dict>
+            <key>TryAgainButtonActive</key>
+            <dict>
+                <key>frame</key>
+                <string>{{83,431},{77,26}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{77,26}}</string>
+                <key>sourceSize</key>
+                <string>{77,26}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -157,7 +183,7 @@
             <key>size</key>
             <string>{256,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:248d95095d195e3b0577db353982e5d6$</string>
+            <string>$TexturePacker:SmartUpdate:7859698ef8a7bd76d1bee8c69377c48b$</string>
             <key>textureFileName</key>
             <string>MainTextureAtlas-iPhone.png</string>
         </dict>
