@@ -1,4 +1,4 @@
-//
+    //
 // Glitch Run
 //
 // Copyright 2011 Tiny Speck, Inc.
@@ -36,14 +36,10 @@
     {
         GlitchAvatarSprite *avatar = [GlitchAvatarSprite spriteWithAvatarData:[[GlitchCentral sharedInstance] avatarData]];
         
-        CGSize avatarSize = avatar.scaledContentSize; 
-        CGPoint pos = ccp(120, 70 + avatarSize.height/2);
-        CGPoint ap = avatar.anchorPoint;
-        CCLOG(@"Anchor point: %.2f, %.2f", ap.x, ap.y);
-        CGPoint app = avatar.anchorPointInPixels;
-        CCLOG(@"Anchor point pixels: %.2f, %.2f", app.x, app.y);
-        avatar.position = pos;
+        CGPoint pos = ccp(63, 70);
         [self addChild:avatar];
+        avatar.position = pos;
+        
         [avatar idle];
     }
     

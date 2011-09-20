@@ -136,7 +136,7 @@ typedef enum
         
         BOOL isRetina = [[GameManager sharedGameManager] retina];
         
-        CGSize spriteSize = self.jumper.scaledContentSize; 
+        CGSize spriteSize = self.jumper.contentSize; 
         float32 density = isRetina ? 40 : 10; // Retina is 4 x size of non-retina
         b2Vec2 jumperPos = b2Vec2(0, 0.6); 
         
@@ -152,8 +152,9 @@ typedef enum
         jumperBody->SetFixedRotation(YES);
         
         CGPoint screenPos = [self convertWorldToScreen:jumperPos];
-        self.jumper.position = ccp(screenPos.x + spriteSize.width/2, screenPos.y + spriteSize.height/2);
         [self addChild:self.jumper z:20];
+        self.jumper.needsPositionAdjust = YES; // Breaks in non-retina without this
+        self.jumper.position = ccp(screenPos.x + spriteSize.width/2, screenPos.y);
         [self idle];
         
         self.isTouchEnabled = YES;
@@ -312,9 +313,17 @@ typedef enum
             {
                 CCSprite *ccs = (CCSprite*)b->GetUserData();
                 // We're moving our frame of reference to keep the jumper in the same position on screen
-                float yAdjust =  (b == jumperBody) ? 8.0 : 0.0;
+                float xAdjust = 0.0;
+                float yAdjust = 0.0; 
+                if (b == jumperBody)
+                {
+                    // Anchor point is at (0, 0)
+                    GlitchAvatarSprite *avatar = (GlitchAvatarSprite *)ccs;
+                    xAdjust = -avatar.contentSize.width/2;
+                    yAdjust =  avatar.contentSize.height/2 + (avatar.isRetina ? 30.0 : 15.0);                    
+                }
                 b2Vec2 bPos = b->GetPosition();
-                ccs.position = CGPointMake( (bPos.x - jumperX) * PTM_RATIO + screenSize.width/2 - self.jumperOffset, bPos.y * PTM_RATIO + yAdjust);
+                ccs.position = CGPointMake( (bPos.x - jumperX) * PTM_RATIO + screenSize.width/2 - self.jumperOffset + xAdjust, bPos.y * PTM_RATIO + yAdjust);
                 ccs.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }	
         }
@@ -395,7 +404,9 @@ typedef enum
     [self performSelector:@selector(gameOver) withObject:nil afterDelay:2.0];
     [self.jumper crash];
     self.dazed = [CCParticleSystemQuad particleWithFile:@"Stars.plist"];
-    CGPoint dazedPos = ccpAdd(self.jumper.position, ccp(0, self.jumper.scaledContentSize.height/2));
+    CGPoint dazedPos = ccpAdd(self.jumper.position, 
+                              ccp(self.jumper.contentSize.width/2, 
+                                  self.jumper.isRetina ? self.jumper.contentSize.height * 2 : self.jumper.contentSize.height ));
     self.dazed.position = dazedPos;
     [self addChild:self.dazed z:30];
 }

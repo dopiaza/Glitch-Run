@@ -27,12 +27,12 @@
 #import "GlitchAvatarSprite.h"
 #import "Constants.h"
 #import "GameManager.h"
+#import "CCSprite(Glitch).h"
 
 @interface GlitchAvatarSprite ()
 
 @property (retain, nonatomic) GlitchAvatarData *avatarData;
 @property (retain, nonatomic) CCAction *currentAction;
-@property (assign, nonatomic) BOOL isRetina;
 
 @end
 
@@ -43,6 +43,7 @@
 @synthesize currentAction = _currentAction;
 @synthesize avatarState = _avatarState;
 @synthesize isRetina = _isRetina;
+@synthesize needsPositionAdjust = _needsPositionAdjust;
 
 +(id)spriteWithAvatarData:(GlitchAvatarData *)data
 {
@@ -56,6 +57,7 @@
     {
         self.avatarData = data;
         self.isRetina = [[GameManager sharedGameManager] retina];
+        self.anchorPoint = ccp(0.0, 0.0);
         if (self.isRetina)
         {
             self.scale = 2.0;
@@ -74,6 +76,17 @@
     _currentAction = nil;
     
     [super dealloc];
+}
+
+-(void)setPosition:(CGPoint)pos
+{
+    CGPoint p = pos;
+    if (self.isRetina || self.needsPositionAdjust)
+    {
+        CGSize size = self.scaledContentSize;
+        p = ccp(pos.x, pos.y - size.height);
+    }
+    super.position = p;
 }
 
 -(void)setBody:(b2Body *)body

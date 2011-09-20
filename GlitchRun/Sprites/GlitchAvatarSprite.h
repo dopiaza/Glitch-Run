@@ -92,5 +92,10 @@ typedef enum
 
 @property (readonly, nonatomic) GlitchAvatarAnimationType currentAnimationType;
 @property (readonly, nonatomic) GlitchAvatarState avatarState;
+@property (assign, nonatomic) BOOL isRetina;
+
+// TODO Inconsistencies in behaviour when setting position of avatar sprite
+// Use this flag to work around it for now. 
+@property (assign, nonatomic) BOOL needsPositionAdjust;
 
 @end

@@ -14,6 +14,9 @@
 		4F0E93EA14282BCD008D80D2 /* GlitchRunStatus-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93E814282BCD008D80D2 /* GlitchRunStatus-hd.png */; };
 		4F0E93ED14282E59008D80D2 /* GlitchRunBig-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93EB14282E59008D80D2 /* GlitchRunBig-hd.fnt */; };
 		4F0E93EE14282E59008D80D2 /* GlitchRunBig-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93EC14282E59008D80D2 /* GlitchRunBig-hd.png */; };
+		4F0E93F11428B59A008D80D2 /* Star-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93EF1428B59A008D80D2 /* Star-hd.png */; };
+		4F0E93F21428B59A008D80D2 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93F01428B59A008D80D2 /* Star.png */; };
+		4F0E93F41428B67F008D80D2 /* Stars-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93F31428B67F008D80D2 /* Stars-hd.plist */; };
 		4F19E3A01404387D00F95B36 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E3961404387D00F95B36 /* AppDelegate.mm */; };
 		4F19E3A11404387D00F95B36 /* GameManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E39A1404387D00F95B36 /* GameManager.mm */; };
 		4F19E3A21404387D00F95B36 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E39C1404387D00F95B36 /* GLES-Render.mm */; };
@@ -252,6 +255,9 @@
 		4F0E93E814282BCD008D80D2 /* GlitchRunStatus-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GlitchRunStatus-hd.png"; sourceTree = "<group>"; };
 		4F0E93EB14282E59008D80D2 /* GlitchRunBig-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GlitchRunBig-hd.fnt"; sourceTree = "<group>"; };
 		4F0E93EC14282E59008D80D2 /* GlitchRunBig-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GlitchRunBig-hd.png"; sourceTree = "<group>"; };
+		4F0E93EF1428B59A008D80D2 /* Star-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star-hd.png"; sourceTree = "<group>"; };
+		4F0E93F01428B59A008D80D2 /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
+		4F0E93F31428B67F008D80D2 /* Stars-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Stars-hd.plist"; sourceTree = "<group>"; };
 		4F19E3951404387D00F95B36 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "Other Sources/AppDelegate.h"; sourceTree = "<group>"; };
 		4F19E3961404387D00F95B36 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "Other Sources/AppDelegate.mm"; sourceTree = "<group>"; };
 		4F19E3971404387D00F95B36 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = "Other Sources/Constants.h"; sourceTree = "<group>"; };
@@ -850,6 +856,9 @@
 		4F24AD2B13F1F818006D3D8B /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				4F0E93F31428B67F008D80D2 /* Stars-hd.plist */,
+				4F0E93EF1428B59A008D80D2 /* Star-hd.png */,
+				4F0E93F01428B59A008D80D2 /* Star.png */,
 				4F8E9D7514256ABC00493FC0 /* MainTextureAtlas-iPhone-hd.plist */,
 				4F8E9D7614256ABC00493FC0 /* MainTextureAtlas-iPhone-hd.png */,
 				4FAA40ED140952540068FEB6 /* Stars.plist */,
@@ -1532,6 +1541,9 @@
 				4F0E93EA14282BCD008D80D2 /* GlitchRunStatus-hd.png in Resources */,
 				4F0E93ED14282E59008D80D2 /* GlitchRunBig-hd.fnt in Resources */,
 				4F0E93EE14282E59008D80D2 /* GlitchRunBig-hd.png in Resources */,
+				4F0E93F11428B59A008D80D2 /* Star-hd.png in Resources */,
+				4F0E93F21428B59A008D80D2 /* Star.png in Resources */,
+				4F0E93F41428B67F008D80D2 /* Stars-hd.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
