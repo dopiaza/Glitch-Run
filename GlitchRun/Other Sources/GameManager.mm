@@ -34,6 +34,7 @@ static GameManager *_sharedGameManager = nil;
 @implementation GameManager
 
 @synthesize lastDistanceRan = _lastDistanceRan;
+@synthesize retina = _retina;
 
 +(GameManager *)sharedGameManager
 {

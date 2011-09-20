@@ -41,5 +41,6 @@ typedef enum
 
 @property (assign, nonatomic) float lastDistanceRan;
 @property (assign, nonatomic) float hiScore;
+@property (assign, nonatomic) BOOL retina;
 
 @end

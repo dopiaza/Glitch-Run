@@ -26,11 +26,13 @@
 
 #import "GlitchAvatarSprite.h"
 #import "Constants.h"
+#import "GameManager.h"
 
 @interface GlitchAvatarSprite ()
 
 @property (retain, nonatomic) GlitchAvatarData *avatarData;
 @property (retain, nonatomic) CCAction *currentAction;
+@property (assign, nonatomic) BOOL isRetina;
 
 @end
 
@@ -40,6 +42,7 @@
 @synthesize currentAnimationType = _currentAnimationType;
 @synthesize currentAction = _currentAction;
 @synthesize avatarState = _avatarState;
+@synthesize isRetina = _isRetina;
 
 +(id)spriteWithAvatarData:(GlitchAvatarData *)data
 {
@@ -52,6 +55,11 @@
     if (self) 
     {
         self.avatarData = data;
+        self.isRetina = [[GameManager sharedGameManager] retina];
+        if (self.isRetina)
+        {
+            self.scale = 2.0;
+        }
     }
     
     return self;

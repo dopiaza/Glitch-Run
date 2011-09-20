@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Gravestone.png</key>
+            <key>Gravestone</key>
             <dict>
                 <key>frame</key>
                 <string>{{224,556},{209,187}}</string>
@@ -17,7 +17,7 @@
                 <key>sourceSize</key>
                 <string>{209,187}</string>
             </dict>
-            <key>Piggy.png</key>
+            <key>Piggy</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,597},{156,101}}</string>
@@ -30,7 +30,7 @@
                 <key>sourceSize</key>
                 <string>{156,101}</string>
             </dict>
-            <key>PlayButton.png</key>
+            <key>PlayButton</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,278},{400,90}}</string>
@@ -43,7 +43,7 @@
                 <key>sourceSize</key>
                 <string>{400,90}</string>
             </dict>
-            <key>PlayButtonActive.png</key>
+            <key>PlayButtonActive</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,186},{400,90}}</string>
@@ -56,7 +56,7 @@
                 <key>sourceSize</key>
                 <string>{400,90}</string>
             </dict>
-            <key>Rock.png</key>
+            <key>Rock</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,475},{220,120}}</string>
@@ -69,7 +69,7 @@
                 <key>sourceSize</key>
                 <string>{220,120}</string>
             </dict>
-            <key>Shrine.png</key>
+            <key>Shrine</key>
             <dict>
                 <key>frame</key>
                 <string>{{253,370},{220,184}}</string>
@@ -82,7 +82,7 @@
                 <key>sourceSize</key>
                 <string>{220,184}</string>
             </dict>
-            <key>SignInButton.png</key>
+            <key>SignInButton</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,94},{400,90}}</string>
@@ -95,7 +95,7 @@
                 <key>sourceSize</key>
                 <string>{400,90}</string>
             </dict>
-            <key>SignInButtonActive.png</key>
+            <key>SignInButtonActive</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,2},{400,90}}</string>
@@ -108,7 +108,7 @@
                 <key>sourceSize</key>
                 <string>{400,90}</string>
             </dict>
-            <key>SignOutButton.png</key>
+            <key>SignOutButton</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,744},{120,42}}</string>
@@ -121,7 +121,7 @@
                 <key>sourceSize</key>
                 <string>{120,42}</string>
             </dict>
-            <key>SignOutButtonActive.png</key>
+            <key>SignOutButtonActive</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,700},{120,42}}</string>
@@ -134,7 +134,7 @@
                 <key>sourceSize</key>
                 <string>{120,42}</string>
             </dict>
-            <key>TreeTrunk.png</key>
+            <key>TreeTrunk</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,370},{249,103}}</string>
@@ -157,7 +157,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:90d17f41a245ad6eb2a2aa2772c3d3b7$</string>
+            <string>$TexturePacker:SmartUpdate:9f71361ebaa1d5f44dc84ef1c5cbf999$</string>
             <key>textureFileName</key>
             <string>MainTextureAtlas-iPhone-hd.png</string>
         </dict>

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0E93E214281B77008D80D2 /* CCSprite(Glitch).m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0E93E114281B77008D80D2 /* CCSprite(Glitch).m */; };
+		4F0E93E514282AD7008D80D2 /* GlitchMain-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93E314282AD7008D80D2 /* GlitchMain-hd.fnt */; };
+		4F0E93E614282AD7008D80D2 /* GlitchMain-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93E414282AD7008D80D2 /* GlitchMain-hd.png */; };
+		4F0E93E914282BCD008D80D2 /* GlitchRunStatus-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93E714282BCD008D80D2 /* GlitchRunStatus-hd.fnt */; };
+		4F0E93EA14282BCD008D80D2 /* GlitchRunStatus-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93E814282BCD008D80D2 /* GlitchRunStatus-hd.png */; };
+		4F0E93ED14282E59008D80D2 /* GlitchRunBig-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93EB14282E59008D80D2 /* GlitchRunBig-hd.fnt */; };
+		4F0E93EE14282E59008D80D2 /* GlitchRunBig-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0E93EC14282E59008D80D2 /* GlitchRunBig-hd.png */; };
 		4F19E3A01404387D00F95B36 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E3961404387D00F95B36 /* AppDelegate.mm */; };
 		4F19E3A11404387D00F95B36 /* GameManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E39A1404387D00F95B36 /* GameManager.mm */; };
 		4F19E3A21404387D00F95B36 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E39C1404387D00F95B36 /* GLES-Render.mm */; };
@@ -236,6 +243,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F0E93DE14280AA6008D80D2 /* GlitchSpriteSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlitchSpriteSheet.h; path = "Other Sources/GlitchSpriteSheet.h"; sourceTree = "<group>"; };
+		4F0E93E014281B77008D80D2 /* CCSprite(Glitch).h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCSprite(Glitch).h"; sourceTree = "<group>"; };
+		4F0E93E114281B77008D80D2 /* CCSprite(Glitch).m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCSprite(Glitch).m"; sourceTree = "<group>"; };
+		4F0E93E314282AD7008D80D2 /* GlitchMain-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GlitchMain-hd.fnt"; sourceTree = "<group>"; };
+		4F0E93E414282AD7008D80D2 /* GlitchMain-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GlitchMain-hd.png"; sourceTree = "<group>"; };
+		4F0E93E714282BCD008D80D2 /* GlitchRunStatus-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GlitchRunStatus-hd.fnt"; sourceTree = "<group>"; };
+		4F0E93E814282BCD008D80D2 /* GlitchRunStatus-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GlitchRunStatus-hd.png"; sourceTree = "<group>"; };
+		4F0E93EB14282E59008D80D2 /* GlitchRunBig-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GlitchRunBig-hd.fnt"; sourceTree = "<group>"; };
+		4F0E93EC14282E59008D80D2 /* GlitchRunBig-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GlitchRunBig-hd.png"; sourceTree = "<group>"; };
 		4F19E3951404387D00F95B36 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "Other Sources/AppDelegate.h"; sourceTree = "<group>"; };
 		4F19E3961404387D00F95B36 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "Other Sources/AppDelegate.mm"; sourceTree = "<group>"; };
 		4F19E3971404387D00F95B36 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = "Other Sources/Constants.h"; sourceTree = "<group>"; };
@@ -1283,6 +1299,12 @@
 		4F6A9F671401231500D14485 /* Glyphs */ = {
 			isa = PBXGroup;
 			children = (
+				4F0E93EB14282E59008D80D2 /* GlitchRunBig-hd.fnt */,
+				4F0E93EC14282E59008D80D2 /* GlitchRunBig-hd.png */,
+				4F0E93E714282BCD008D80D2 /* GlitchRunStatus-hd.fnt */,
+				4F0E93E814282BCD008D80D2 /* GlitchRunStatus-hd.png */,
+				4F0E93E314282AD7008D80D2 /* GlitchMain-hd.fnt */,
+				4F0E93E414282AD7008D80D2 /* GlitchMain-hd.png */,
 				4F4665EE1406E8AF009468BA /* GlitchRunBig.fnt */,
 				4F4665EF1406E8AF009468BA /* GlitchRunBig.png */,
 				4F4665EA1406E730009468BA /* GlitchRunStatus.fnt */,
@@ -1369,6 +1391,7 @@
 				4F8E9D6B142547A900493FC0 /* GlitchAnimation.m */,
 				4F8E9D6C142547A900493FC0 /* GlitchAnimationSet.h */,
 				4F8E9D6D142547A900493FC0 /* GlitchAnimationSet.m */,
+				4F0E93DE14280AA6008D80D2 /* GlitchSpriteSheet.h */,
 				4F8E9D6E142547A900493FC0 /* GlitchSpriteSheet.m */,
 				4F8E9D6F142547AA00493FC0 /* NSDictionary(Glitch).h */,
 				4F8E9D70142547AA00493FC0 /* NSDictionary(Glitch).m */,
@@ -1405,6 +1428,8 @@
 				4F19E3BE14043D6500F95B36 /* GlitchAvatarSprite.mm */,
 				4F19E3A51404389200F95B36 /* Box2DSprite.h */,
 				4F19E3A61404389200F95B36 /* Box2DSprite.mm */,
+				4F0E93E014281B77008D80D2 /* CCSprite(Glitch).h */,
+				4F0E93E114281B77008D80D2 /* CCSprite(Glitch).m */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -1501,6 +1526,12 @@
 				4F8E9D7714256ABC00493FC0 /* MainTextureAtlas-iPhone-hd.plist in Resources */,
 				4F8E9D7814256ABC00493FC0 /* MainTextureAtlas-iPhone-hd.png in Resources */,
 				4F8E9D7A1425842D00493FC0 /* README in Resources */,
+				4F0E93E514282AD7008D80D2 /* GlitchMain-hd.fnt in Resources */,
+				4F0E93E614282AD7008D80D2 /* GlitchMain-hd.png in Resources */,
+				4F0E93E914282BCD008D80D2 /* GlitchRunStatus-hd.fnt in Resources */,
+				4F0E93EA14282BCD008D80D2 /* GlitchRunStatus-hd.png in Resources */,
+				4F0E93ED14282E59008D80D2 /* GlitchRunBig-hd.fnt in Resources */,
+				4F0E93EE14282E59008D80D2 /* GlitchRunBig-hd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1704,6 +1735,7 @@
 				4F8E9D72142547AA00493FC0 /* GlitchAnimationSet.m in Sources */,
 				4F8E9D73142547AA00493FC0 /* GlitchSpriteSheet.m in Sources */,
 				4F8E9D74142547AA00493FC0 /* NSDictionary(Glitch).m in Sources */,
+				4F0E93E214281B77008D80D2 /* CCSprite(Glitch).m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

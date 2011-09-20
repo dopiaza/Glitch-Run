@@ -25,6 +25,7 @@
 #import "GlitchCentral.h"
 #import "GameManager.h"
 #import "GlitchAvatarSprite.h"
+#import "CCSprite(Glitch).h"
 
 @implementation PlayerInfoLayer
 
@@ -35,8 +36,13 @@
     {
         GlitchAvatarSprite *avatar = [GlitchAvatarSprite spriteWithAvatarData:[[GlitchCentral sharedInstance] avatarData]];
         
-        CGSize avatarSize = avatar.contentSize; 
-        avatar.position = ccp(120, 70 + avatarSize.height/2);
+        CGSize avatarSize = avatar.scaledContentSize; 
+        CGPoint pos = ccp(120, 70 + avatarSize.height/2);
+        CGPoint ap = avatar.anchorPoint;
+        CCLOG(@"Anchor point: %.2f, %.2f", ap.x, ap.y);
+        CGPoint app = avatar.anchorPointInPixels;
+        CCLOG(@"Anchor point pixels: %.2f, %.2f", app.x, app.y);
+        avatar.position = pos;
         [self addChild:avatar];
         [avatar idle];
     }

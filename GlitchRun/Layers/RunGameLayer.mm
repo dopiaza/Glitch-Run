@@ -27,6 +27,7 @@
 #import "Constants.h"
 #import "GlitchAvatarSprite.h"
 #import "GB2ShapeCache.h"
+#import "CCSprite(Glitch).h"
 
 typedef enum
 {
@@ -133,7 +134,10 @@ typedef enum
         
         self.jumper = [GlitchAvatarSprite spriteWithAvatarData:[[GlitchCentral sharedInstance] avatarData]];
         
-        CGSize spriteSize = self.jumper.contentSize; 
+        BOOL isRetina = [[GameManager sharedGameManager] retina];
+        
+        CGSize spriteSize = self.jumper.scaledContentSize; 
+        float32 density = isRetina ? 40 : 10; // Retina is 4 x size of non-retina
         b2Vec2 jumperPos = b2Vec2(0, 0.6); 
         
         [self createBodyAtLocation:jumperPos
@@ -141,7 +145,7 @@ typedef enum
                          forSprite:self.jumper 
                           friction:0.02 
                        restitution:0.1 
-                           density:10 
+                           density:density 
                              isBox:NO];
         
         b2Body *jumperBody = self.jumper.body;
@@ -391,7 +395,7 @@ typedef enum
     [self performSelector:@selector(gameOver) withObject:nil afterDelay:2.0];
     [self.jumper crash];
     self.dazed = [CCParticleSystemQuad particleWithFile:@"Stars.plist"];
-    CGPoint dazedPos = ccpAdd(self.jumper.position, ccp(0, self.jumper.contentSize.height/2));
+    CGPoint dazedPos = ccpAdd(self.jumper.position, ccp(0, self.jumper.scaledContentSize.height/2));
     self.dazed.position = dazedPos;
     [self addChild:self.dazed z:30];
 }
