@@ -158,8 +158,8 @@ typedef enum
         [self idle];
         
         self.isTouchEnabled = YES;
-        self.minDistanceToNextObstacle = 6.0;
-        self.variantDistanceToNextObstacle = 10.0;
+        self.minDistanceToNextObstacle = 3.0;
+        self.variantDistanceToNextObstacle = 8.0;
         self.maxLinearVelocity = 4.0;
         
         self.statusLabel = [CCLabelBMFont labelWithString:@"" fntFile:@"GlitchRunStatus.fnt"];
@@ -532,16 +532,16 @@ typedef enum
     {
         // We've destroyed on obstacle
         // Update the parameters to make the game progressively harder with each obstacle
-        if (self.variantDistanceToNextObstacle > 2)
+        if (self.variantDistanceToNextObstacle > 1)
         {
-            self.variantDistanceToNextObstacle -= 0.5;
+            self.variantDistanceToNextObstacle -= 1.0;
         }
         else
         {
             // We've reduced the variant part as much as we are prepared to go, so now reduce the minimum distance between obstacles
             if (self.minDistanceToNextObstacle > 2)
             {
-                self.minDistanceToNextObstacle -= 0.2;                
+                self.minDistanceToNextObstacle -= 0.5;                
             }
         }
         self.maxLinearVelocity += 0.05;
