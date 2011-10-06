@@ -25,5 +25,6 @@
 
 @interface LoadingLayer : CCLayer
 
+-(void)updateProgress;
 
 @end

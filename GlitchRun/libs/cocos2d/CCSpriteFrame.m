@@ -45,7 +45,8 @@
 
 -(id) initWithTexture:(CCTexture2D*)texture rect:(CGRect)rect
 {
-	CGRect rectInPixels = CC_RECT_POINTS_TO_PIXELS( rect );
+	//CGRect rectInPixels = CC_RECT_POINTS_TO_PIXELS( rect );
+    CGRect rectInPixels = rect;
 	return [self initWithTexture:texture rectInPixels:rectInPixels rotated:NO offset:CGPointZero originalSize:rectInPixels.size];
 }
 

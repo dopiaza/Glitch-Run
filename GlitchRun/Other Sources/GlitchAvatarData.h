@@ -32,10 +32,15 @@
 
 -(void)glitchAvatarDataLoaded:(GlitchAvatarData *)avatarData;
 -(void)glitchAvatarData:(GlitchAvatarData *)avatarData failedWithError:(NSError *)error;
+-(void)glitchAvatarData:(GlitchAvatarData *)avatarData progress:(NSString *)progressMessage;
 
 @end
 
+@protocol GlitchAnimationLoadDelegate <NSObject>
 
+-(void)animationName:(NSString *)name progress:(float)percentage;
+
+@end
 
 
 @interface GlitchAvatarData : NSObject
@@ -45,6 +50,8 @@
 
 -(void)loadFromAnimationSet:(GlitchAnimationSet *)animationSet withDelegate:(NSObject<GlitchAvatarDataDelegate> *)delegate;
 -(CCAnimation *)animationForName:(NSString *)name;
+-(void)preloadAnimationForName:(NSString *)name withDelegate:(NSObject<GlitchAnimationLoadDelegate> *)delegate;
 -(CCTexture2D *)defaultTexture;
+-(CGRect)defaultRect;
 
 @end

@@ -30,6 +30,7 @@
 		4F19E3BC14043D5800F95B36 /* GlitchAvatarData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E3B914043D5800F95B36 /* GlitchAvatarData.m */; };
 		4F19E3BF14043D6500F95B36 /* GlitchAvatarSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E3BE14043D6500F95B36 /* GlitchAvatarSprite.mm */; };
 		4F19E3C214043D7400F95B36 /* LoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F19E3C114043D7400F95B36 /* LoadingScene.m */; };
+		4F248420143E4E23002FDD48 /* AnimationPreloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F24841F143E4E23002FDD48 /* AnimationPreloaderOperation.m */; };
 		4F24AB2713F1C93D006D3D8B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F24AB2613F1C93D006D3D8B /* QuartzCore.framework */; };
 		4F24AB2913F1C93D006D3D8B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F24AB2813F1C93D006D3D8B /* OpenGLES.framework */; };
 		4F24AB2B13F1C93D006D3D8B /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F24AB2A13F1C93D006D3D8B /* OpenAL.framework */; };
@@ -288,6 +289,8 @@
 		4F19E3BE14043D6500F95B36 /* GlitchAvatarSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GlitchAvatarSprite.mm; path = Sprites/GlitchAvatarSprite.mm; sourceTree = "<group>"; };
 		4F19E3C014043D7400F95B36 /* LoadingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingScene.h; path = Scenes/LoadingScene.h; sourceTree = "<group>"; };
 		4F19E3C114043D7400F95B36 /* LoadingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingScene.m; path = Scenes/LoadingScene.m; sourceTree = "<group>"; };
+		4F24841E143E4E23002FDD48 /* AnimationPreloaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationPreloaderOperation.h; path = Scenes/AnimationPreloaderOperation.h; sourceTree = "<group>"; };
+		4F24841F143E4E23002FDD48 /* AnimationPreloaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimationPreloaderOperation.m; path = Scenes/AnimationPreloaderOperation.m; sourceTree = "<group>"; };
 		4F24AB2213F1C93D006D3D8B /* GlitchRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlitchRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F24AB2613F1C93D006D3D8B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4F24AB2813F1C93D006D3D8B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -847,6 +850,8 @@
 		4F24AD1913F1E7EA006D3D8B /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				4F24841E143E4E23002FDD48 /* AnimationPreloaderOperation.h */,
+				4F24841F143E4E23002FDD48 /* AnimationPreloaderOperation.m */,
 				4FBFC2B8142935C600196B50 /* ErrorScene.h */,
 				4FBFC2B9142935C600196B50 /* ErrorScene.m */,
 				4FAE9BC7140503B5007612B9 /* PlayerInfoScene.h */,
@@ -1760,6 +1765,7 @@
 				4FBFC2B7142935B400196B50 /* ErrorLayer.m in Sources */,
 				4FBFC2BA142935C600196B50 /* ErrorScene.m in Sources */,
 				4FBFC2BD142935D600196B50 /* CCSprite(Glitch).m in Sources */,
+				4F248420143E4E23002FDD48 /* AnimationPreloaderOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

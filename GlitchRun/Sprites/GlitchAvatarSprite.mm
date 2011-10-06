@@ -54,15 +54,16 @@
 
 -(id)initWithAvatarData:(GlitchAvatarData *)data
 {
+    BOOL retina = [[GameManager sharedGameManager] retina];
     self = [super initWithTexture:[data defaultTexture]];
     if (self) 
     {
         self.avatarData = data;
-        self.isRetina = [[GameManager sharedGameManager] retina];
-        self.anchorPoint = ccp(0.0, 0.0);
+        self.isRetina = retina;
+        self.anchorPoint = ccp(0.5, 0.5);
         if (self.isRetina)
         {
-            self.scale = 2.0;
+           self.scale = 2.0;
         }
     }
     
@@ -83,28 +84,13 @@
 -(void)setPosition:(CGPoint)pos
 {
     CGPoint p = pos;
-    if (self.isRetina || self.needsPositionAdjust)
-    {
-        CGSize size = self.scaledContentSize;
-        p = ccp(pos.x, pos.y - size.height);
-    }
+    p = ccp(floor(p.x), floor(p.y));
     super.position = p;
 }
 
 -(void)setBody:(b2Body *)body
 {
     [super setBody:body];
-    
-    // Add a sensor
-    b2PolygonShape sensor;
-    sensor.SetAsBox(self.contentSize.width/2/PTM_RATIO,
-                   self.contentSize.height/2/PTM_RATIO);
-    sensor.m_centroid = b2Vec2(sensor.m_centroid.x, sensor.m_centroid.y - (self.contentSize.height/2/PTM_RATIO/20));
-
-	b2FixtureDef sensorDef;
-    sensorDef.shape = &sensor;
-    sensorDef.isSensor = true;
-    body->CreateFixture(&sensorDef);
 }
 
 -(NSString *)animationNameForType:(GlitchAvatarAnimationType)animationType
@@ -494,6 +480,11 @@
             // Simplistic approach
             if (normal.y > normal.x)
             {
+                if (!onGround)
+                {
+                    // Changing state, reset counter
+                    self.updateCounter = 0;
+                }
                 onGround = YES;
             }
         }

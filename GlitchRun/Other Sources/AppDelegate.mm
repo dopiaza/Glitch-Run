@@ -106,7 +106,8 @@
 	[director setOpenGLView:glView];
 	
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-	BOOL retina = [director enableRetinaDisplay:YES];
+	BOOL retina = NO;
+    retina = [director enableRetinaDisplay:YES];
     [GameManager sharedGameManager].retina = retina;
     if (!retina)
     {
@@ -132,6 +133,8 @@
 	[director setAnimationInterval:1.0/60];
 	[director setDisplayFPS:NO];
 	
+    [[CCDirector sharedDirector] setProjection:kCCDirectorProjection2D];
+
 	
 	// make the OpenGLView a child of the view controller
 	[viewController setView:glView];
@@ -149,7 +152,7 @@
 	
 	// Removes the startup flicker
 	[self removeStartupFlicker];
-    
+        
     NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
     if (url)
     {

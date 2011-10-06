@@ -24,7 +24,13 @@
 #import "cocos2d.h"
 #import "GlitchCentral.h"
 
+@protocol LoaderDelegate <NSObject>
+
+-(void)updateProgress;
+
+@end
+
 @interface LoadingScene : CCScene
-<GlitchDelegate>
+<GlitchDelegate, LoaderDelegate>
 
 @end

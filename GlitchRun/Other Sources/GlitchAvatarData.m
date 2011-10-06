@@ -26,6 +26,7 @@
 #import "GlitchAnimation.h"
 #import "GlitchAvatarAnimationFrame.h"
 
+
 @interface GlitchAvatarData ()
 
 @property (nonatomic, retain) GlitchAnimationSet *animationSet;
@@ -36,6 +37,8 @@
 @property (retain, nonatomic) NSObject<GlitchAvatarDataDelegate> *delegate;
 @property (retain, nonatomic) NSFileManager *fileManager;
 @property (copy, nonatomic) NSString *avatarDataDirectory;
+@property (assign, nonatomic) BOOL spritesheetError;
+@property (retain, nonatomic) NSOperationQueue *queue;
 
 @end
 
@@ -49,6 +52,8 @@
 @synthesize delegate = _delegate;
 @synthesize fileManager = _fileManager;
 @synthesize avatarDataDirectory = _avatarDataDirectory;
+@synthesize spritesheetError = _spritesheetError;
+@synthesize queue = _queue;
 
 - (id)init
 {
@@ -68,10 +73,15 @@
 			[self.fileManager createDirectoryAtPath:self.avatarDataDirectory withIntermediateDirectories:YES attributes:nil error:nil];
 		}
         
+        self.queue = [[[NSOperationQueue alloc] init] autorelease];
+        [self.queue setMaxConcurrentOperationCount:1];
+        
         self.animations = [NSMutableDictionary dictionaryWithCapacity:12];
         self.imageTokens = [NSMutableDictionary dictionaryWithCapacity:12];
         self.frames = [NSMutableDictionary dictionaryWithCapacity:100];
         self.spritesheets = [NSMutableDictionary dictionaryWithCapacity:12]; 
+        
+        [DZDataLoader sharedDataLoader].timeout = 120.0;
     }
     
     return self;
@@ -108,6 +118,9 @@
     [_avatarDataDirectory release];
     _avatarDataDirectory = nil;
     
+    [_queue release];
+    _queue = nil;
+    
     [super dealloc];
 }
 
@@ -115,25 +128,27 @@
 
 -(void)checkIfAllSpriteSheetsLoaded
 {
-   if ([self.imageTokens count] == 0)
-   {
+    //NSLog(@"%d spritesheets pending", [self.imageTokens count]);
+    if ([self.imageTokens count] == 0 && !self.spritesheetError)
+    {
        // No outstanding requests, we must have everything
        if (self.delegate)
        {
            [self.delegate glitchAvatarDataLoaded:self];
        }
-   }
+    }
 }
 
 -(void)loadFromAnimationSet:(GlitchAnimationSet *)theAnimationSet withDelegate:(NSObject<GlitchAvatarDataDelegate> *)theDelegate
 {
+    self.spritesheetError = NO;
     self.delegate = theDelegate;
     self.animationSet = theAnimationSet;
     
     // Load all the images
     for (NSString *name in self.animationSet.spritesheets)
     {
-        NSLog(@"Loading spritesheet %@", name);
+        [self.delegate glitchAvatarData:self progress:[NSString stringWithFormat:@"Loading spritesheet %@", name]];
         GlitchSpriteSheet *ss = [self.animationSet.spritesheets objectForKey:name];
         DZDataLoadToken token = [[DZDataLoader sharedDataLoader] loadData:[NSURL URLWithString:ss.url] withDelegate:self];
         // Store the token away so that when we get the response, we know which spritesheet it is for
@@ -158,7 +173,10 @@
                 for (NSNumber *frameNumber in frameList) 
                 {
                     GlitchAvatarAnimationFrame *frame = [self.frames objectForKey:frameNumber];
-                    [f addObject:frame];
+                    if (frame)
+                    {
+                        [f addObject:frame];
+                    }
                 }
                 [self.animations setObject:f forKey:name];
             }
@@ -171,6 +189,49 @@
 {
     // TODO lazy loading
     return [(NSValue *)[self.spritesheets objectForKey:name] pointerValue];
+}
+
+-(void)preloadFrame:(NSArray *)params
+{
+    GlitchAvatarAnimationFrame *f = [params objectAtIndex:0];
+    CCAnimation *animation = [params objectAtIndex:1];
+    
+    NSString *frameName = [NSString stringWithFormat:@"avatar-frame-%d", [f->frameNumber integerValue]];
+    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] textureForKey:frameName];
+    CGRect frameRect = f->frame;
+    if (texture == nil)
+    {
+        CGImageRef spritesheet = [self spritesheetForName:f->sheetName];
+        CGImageRef frameRef = CGImageCreateWithImageInRect(spritesheet, frameRect);
+        texture = [[CCTextureCache sharedTextureCache] addCGImage:frameRef forKey:frameName];
+        CGImageRelease(frameRef);
+    }
+    CGRect rect = CGRectMake(0, 0, frameRect.size.width, frameRect.size.height);
+    [animation addFrameWithTexture:texture rect:rect];
+}
+
+-(void)preloadAnimationForName:(NSString *)name withDelegate:(NSObject<GlitchAnimationLoadDelegate> *)delegate
+{
+    NSString *animationName = [NSString stringWithFormat:@"avatar-%@", name];
+    NSArray *frames = [self framesForAnimationName:name];
+    CCAnimation *animation = [CCAnimation animation];
+    int frameCount = [frames count];
+    int n = 0;
+    for (GlitchAvatarAnimationFrame *f in frames)
+    {
+        NSArray *params = [NSArray arrayWithObjects:f, animation, nil];
+        [self performSelectorOnMainThread:@selector(preloadFrame:) withObject:params waitUntilDone:YES];
+        
+        if (delegate)
+        {
+            if (++n % 10 == 0) // Only update every ten frames
+            {
+                float progress = ((float)n)/frameCount;
+                [delegate animationName:name progress:progress];
+            }
+        }
+    }
+    [[CCAnimationCache sharedAnimationCache] addAnimation:animation name:animationName];
 }
 
 -(CCAnimation *)animationForName:(NSString *)name
@@ -195,10 +256,12 @@
             }
             CGRect rect = CGRectMake(0, 0, frameRect.size.width, frameRect.size.height);
             [animation addFrameWithTexture:texture rect:rect];
+            [[CCAnimationCache sharedAnimationCache] addAnimation:animation name:animationName];
         }
     }
     return animation;
 }
+
 
 -(CCTexture2D *)defaultTexture
 {
@@ -206,6 +269,67 @@
     NSArray *frames = animation.frames;
     CCSpriteFrame *frame = [frames objectAtIndex:0];
     return frame.texture;
+}
+
+-(CGRect)defaultRect
+{
+    CCAnimation *animation = [self animationForName:@"idle0"];
+    NSArray *frames = animation.frames;
+    CCSpriteFrame *frame = [frames objectAtIndex:0];
+    return frame.rect;
+}
+
+-(void)spritesheetProcessedForToken:(DZDataLoadToken)token
+{
+    NSNumber *key = [NSNumber numberWithInteger:token];
+    [self.imageTokens removeObjectForKey:key];
+    [self checkIfAllSpriteSheetsLoaded];    
+}
+
+-(void)setSpritesheetImage:(CGImageRef)imageRef forKey:(NSString *)name
+{
+    [self.spritesheets setObject:[NSValue valueWithPointer:CGImageRetain(imageRef)] forKey:name];
+}
+
+-(void)setFrame:(GlitchAvatarAnimationFrame *)frame forKey:(NSNumber *)frameNumber
+{
+    [self.frames setObject:frame forKey:frameNumber];
+}
+
+-(void)processSpritesheetForToken:(DZDataLoadToken)token withData:(NSData *)data 
+{
+    NSNumber *key = [NSNumber numberWithInteger:token];
+    NSString *name = [self.imageTokens objectForKey:key];
+    
+    [self.delegate glitchAvatarData:self progress:[NSString stringWithFormat:@"Processing spritesheet %@", name]];
+    GlitchSpriteSheet *spritesheet = [self.animationSet.spritesheets objectForKey:name];
+
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithCFData((CFDataRef)data);
+    CGImageRef imageRef = CGImageCreateWithPNGDataProvider(dataProvider, NULL, false, kCGRenderingIntentDefault);
+    size_t sheetHeight = CGImageGetHeight(imageRef);
+    size_t sheetWidth = CGImageGetWidth(imageRef);
+    size_t frameHeight = sheetHeight/spritesheet.rows;
+    size_t frameWidth = sheetWidth/spritesheet.columns;
+    
+    [self setSpritesheetImage:imageRef forKey:name];
+    
+    int row = 0;
+    int col = 0;
+    for (NSNumber *frameNumber in spritesheet.frames)
+    {
+        // Work out which rectangle of the image is needed for the frame and store it for later use
+        CGRect f = CGRectMake(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
+        [self setFrame:[GlitchAvatarAnimationFrame frameWithSheetName:name frameNumber:frameNumber frame:f] forKey:frameNumber];
+        
+        if (++col >= spritesheet.columns)
+        {
+            col = 0;
+            row++;
+        }
+    }
+    CGDataProviderRelease(dataProvider);
+    CGImageRelease(imageRef);
+    [self spritesheetProcessedForToken:token];
 }
 
 #pragma mark - DZDataLoaderDelegate 
@@ -219,44 +343,20 @@
     {
         NSString *path = [self.avatarDataDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", name]];
         [self.fileManager createFileAtPath:path contents:data attributes:nil];
-		
-        GlitchSpriteSheet *ss = [self.animationSet.spritesheets objectForKey:name];
-        CGDataProviderRef dataProvider = CGDataProviderCreateWithCFData((CFDataRef)data);
-        CGImageRef imageRef = CGImageCreateWithPNGDataProvider(dataProvider, NULL, false, kCGRenderingIntentDefault);
-        size_t sheetHeight = CGImageGetHeight(imageRef);
-        size_t sheetWidth = CGImageGetWidth(imageRef);
-        size_t frameHeight = sheetHeight/ss.rows;
-        size_t frameWidth = sheetWidth/ss.columns;
-        
-        [self.spritesheets setObject:[NSValue valueWithPointer:CGImageRetain(imageRef)] forKey:name];
-
-        int row = 0;
-        int col = 0;
-        for (NSNumber *frameNumber in ss.frames)
-        {
-            // Work out which rectangle of the image is needed for the frame and store it for later use
-            CGRect f = CGRectMake(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
-            [self.frames setObject:[GlitchAvatarAnimationFrame frameWithSheetName:name frameNumber:frameNumber frame:f] forKey:frameNumber];
-            
-            if (++col >= ss.columns)
-            {
-                col = 0;
-                row++;
-            }
-        }
-        CGDataProviderRelease(dataProvider);
-        CGImageRelease(imageRef);
-        [self.imageTokens removeObjectForKey:key];
-        [self checkIfAllSpriteSheetsLoaded];
+		[self processSpritesheetForToken:token withData:data];
     }
 }
 
+
 -(void)dataLoadFailedWithError:(NSError *)error forToken:(DZDataLoadToken)token
 {
-    // TODO - Need to report the error
+    self.spritesheetError = YES;
     NSNumber *key = [NSNumber numberWithInteger:token];
     [self.imageTokens removeObjectForKey:key];
-    [self checkIfAllSpriteSheetsLoaded];
+    if (self.delegate)
+    {
+        [self.delegate glitchAvatarData:self failedWithError:error];
+    }
 }
 
 

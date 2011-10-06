@@ -54,6 +54,7 @@ typedef enum
                     density:(float32)density 
                       isBox:(BOOL)isBox;
 
+-(void)createJumperBodyAtPosition:(b2Vec2)jumperPos;
 -(void)updateObstacles;
 -(CGPoint)convertWorldToScreen:(b2Vec2)worldPos;
 -(void)setStatusLabelText:(NSString *)text;
@@ -77,6 +78,7 @@ typedef enum
 @property (retain, nonatomic) CCLabelBMFont *statusLabel;
 @property (assign, nonatomic) GameState gameState;
 @property (retain, nonatomic) CCParticleSystem *dazed;
+@property (assign, nonatomic) CGSize bodySize;
 
 @end
 
@@ -95,12 +97,15 @@ typedef enum
 @synthesize statusLabel = _statusLabel;
 @synthesize gameState = _gameState;
 @synthesize dazed = _dazed;
+@synthesize bodySize = _bodySize;
 
 -(id)init
 {
     self = [super init];
     if (self) 
     {
+        self.jumper.body = NULL;
+        
         self.gameState = GameStateNotStarted;
         
         CGSize screenSize = [[CCDirector sharedDirector] winSize];
@@ -133,28 +138,15 @@ typedef enum
 		self.ground->CreateFixture(&groundBox, 0);
         
         self.jumper = [GlitchAvatarSprite spriteWithAvatarData:[[GlitchCentral sharedInstance] avatarData]];
-        
-        BOOL isRetina = [[GameManager sharedGameManager] retina];
-        
-        CGSize spriteSize = self.jumper.contentSize; 
-        float32 density = isRetina ? 40 : 10; // Retina is 4 x size of non-retina
         b2Vec2 jumperPos = b2Vec2(0, 0.6); 
         
-        [self createBodyAtLocation:jumperPos
-                              type:b2_dynamicBody
-                         forSprite:self.jumper 
-                          friction:0.02 
-                       restitution:0.1 
-                           density:density 
-                             isBox:NO];
+        CGSize spriteSize = self.jumper.contentSize; 
         
-        b2Body *jumperBody = self.jumper.body;
-        jumperBody->SetFixedRotation(YES);
+        [self createJumperBodyAtPosition:jumperPos];
         
         CGPoint screenPos = [self convertWorldToScreen:jumperPos];
         [self addChild:self.jumper z:20];
-        self.jumper.needsPositionAdjust = YES; // Breaks in non-retina without this
-        self.jumper.position = ccp(screenPos.x + spriteSize.width/2, screenPos.y);
+        self.jumper.position = ccp(screenPos.x + spriteSize.width/2, screenPos.y + spriteSize.height/2);
         [self idle];
         
         self.isTouchEnabled = YES;
@@ -203,6 +195,54 @@ typedef enum
 }
 
 
+-(void)createJumperBodyAtPosition:(b2Vec2)jumperPos
+{
+    CGSize spriteSize = self.jumper.scaledContentSize;
+    b2Body *jumperBody = self.jumper.body;
+
+    // If this is the first time through, or if the sprite has changed size since we created the body, 
+    // then we create a new body
+    if (jumperBody == NULL || spriteSize.width != self.bodySize.width || spriteSize.height != self.bodySize.height)
+    {
+        CCLOG(@"Creating new jumper body");
+        
+        b2Vec2 v = b2Vec2(0, 0);
+        if (jumperBody != NULL)
+        {
+            v = jumperBody->GetLinearVelocity();   
+        }
+        
+        if (self.jumper.body != NULL)
+        {
+            world->DestroyBody(self.jumper.body);
+        }
+        
+        float32 density = 10;
+        
+        // Now, this density works well for a typical avatar sprite of around 94px x 130px.
+        // If the player has an unusually large outfit on (a tall hat, for example), the sprite will be taller and
+        // so box2d will calculate its mass to be larger. We want all avatars to behave the same, so we adjust the density
+        // to keep a constant avatar mass.
+        float32 typicalSize = 94.0 * 130.0;
+        float32 ourSize = spriteSize.width * spriteSize.height;
+        float32 densityScalingFactor = typicalSize/ourSize;
+        density = density * densityScalingFactor;
+        [self createBodyAtLocation:jumperPos
+                              type:b2_dynamicBody
+                         forSprite:self.jumper 
+                          friction:0.02 
+                       restitution:0.1 
+                           density:density 
+                             isBox:NO];
+        
+        jumperBody = self.jumper.body;
+        jumperBody->SetFixedRotation(YES);
+        jumperBody->SetLinearVelocity(v);
+        self.bodySize = self.jumper.scaledContentSize;    
+    }
+}
+
+
 -(CGFloat)jumperDistance
 {
     b2Body *jumperBody = self.jumper.body;
@@ -238,14 +278,14 @@ typedef enum
     if (isBox) 
     {
         b2PolygonShape shape;
-        shape.SetAsBox(sprite.contentSize.width/2/PTM_RATIO,
-                       sprite.contentSize.height/2/PTM_RATIO);
+        shape.SetAsBox(sprite.scaledContentSize.width/2/PTM_RATIO,
+                       sprite.scaledContentSize.height/2/PTM_RATIO);
         fixtureDef.shape = &shape;
     } 
     else 
     {
         b2CircleShape shape;
-        shape.m_radius = sprite.contentSize.width/2/PTM_RATIO;
+        shape.m_radius = sprite.scaledContentSize.width/2/PTM_RATIO;
         fixtureDef.shape = &shape;
     }
     
@@ -317,14 +357,11 @@ typedef enum
                 float yAdjust = 0.0; 
                 if (b == jumperBody)
                 {
-                    // Anchor point is at (0, 0)
-                    GlitchAvatarSprite *avatar = (GlitchAvatarSprite *)ccs;
-                    xAdjust = -avatar.contentSize.width/2;
-                    yAdjust =  avatar.contentSize.height/2 + (avatar.isRetina ? 30.0 : 15.0);                    
+                    yAdjust = 8.0;
                 }
                 b2Vec2 bPos = b->GetPosition();
                 ccs.position = CGPointMake( (bPos.x - jumperX) * PTM_RATIO + screenSize.width/2 - self.jumperOffset + xAdjust, bPos.y * PTM_RATIO + yAdjust);
-                ccs.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+                ccs.rotation = -1.0 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }	
         }
         // Adjust the ground to stay beneath our feet
@@ -361,6 +398,7 @@ typedef enum
     
     if (self.gameState != GameStateNotStarted)
     {
+        [self createJumperBodyAtPosition:self.jumper.body->GetPosition()];
         [self setStatusLabelText:[NSString stringWithFormat:@"Distance: %.2fm", self.jumperDistance]];
     }
 }
@@ -378,7 +416,14 @@ typedef enum
         CCLOG(@"Jump!");
         b2Body *jumperBody = self.jumper.body;
         
-        b2Vec2 impulse = b2Vec2(0.8, 30.0);
+        // Taller sprites don't have quite so much clearance, so we give them a little extra boost
+        // to get over the obstacles. Shorter sprites can get away with a little less.
+        CGSize size = self.jumper.contentSize;
+        CGFloat adjust =  (self.jumper.isRetina ? 2.0 : 1.0);
+        size = CGSizeMake(size.width * adjust, size.height * adjust);
+        float32 booster = powf(size.height/130.0, 2);
+        b2Vec2 impulse = b2Vec2(0.8, 35.0);
+        impulse *= booster;
         b2Vec2 bodyCenter = jumperBody->GetWorldCenter();
         jumperBody->ApplyLinearImpulse(impulse, bodyCenter); 
         [self.jumper jumpUp];
@@ -409,7 +454,7 @@ typedef enum
     self.dazed = [CCParticleSystemQuad particleWithFile:@"Stars.plist"];
     CGPoint dazedPos = ccpAdd(self.jumper.position, 
                               ccp(self.jumper.contentSize.width/2, 
-                                  self.jumper.isRetina ? self.jumper.contentSize.height * 2 : self.jumper.contentSize.height ));
+                                  self.jumper.contentSize.height/2));
     self.dazed.position = dazedPos;
     [self addChild:self.dazed z:30];
 }
@@ -515,7 +560,7 @@ typedef enum
                 obstacleName = @"Gravestone";
                 break;
         }
-        
+
         Box2DSprite *obstacle = [Box2DSprite spriteWithSpriteFrameName:obstacleName];
         CGSize spriteSize = obstacle.contentSize;
         

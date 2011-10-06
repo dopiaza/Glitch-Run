@@ -61,7 +61,7 @@
         
         GlitchAvatarSprite *avatar = [GlitchAvatarSprite spriteWithAvatarData:[[GlitchCentral sharedInstance] avatarData]];
         
-        CGPoint pos = ccp(63, 70);
+        CGPoint pos = ccp(110, 135);
         [self addChild:avatar];
         avatar.position = pos;
         

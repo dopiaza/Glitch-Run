@@ -48,7 +48,7 @@
 @end
 
 static DZDataLoader *_sharedDataLoader = nil;
-static DZDataLoadToken _imageTokenCounter = 0;
+static DZDataLoadToken _imageTokenCounter = 1;
 
 @interface DZDataLoader ()
 

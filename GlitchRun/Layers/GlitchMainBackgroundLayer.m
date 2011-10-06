@@ -97,14 +97,15 @@
 
 -(void) update:(ccTime)deltaTime
 { 
+    CGSize screenSize = [[CCDirector sharedDirector] winSize];
     CGPoint clouds1Pos = self.clouds1.position;
     CGFloat newX = clouds1Pos.x + (deltaTime * kCloudSpeed);
-    if (newX > 1.5 * self.cloudSize.width)
+    if (newX > screenSize.width + self.cloudSize.width/2)
     {
-        newX = self.cloudSize.width/2;
+        newX = self.clouds2.position.x;
     }
     self.clouds1.position = ccp(newX, clouds1Pos.y);
-    self.clouds2.position = ccp(newX - self.cloudSize.width, clouds1Pos.y);
+    self.clouds2.position = ccp(newX - self.cloudSize.width * 1.5, clouds1Pos.y);
 }
 
 @end

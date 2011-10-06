@@ -242,9 +242,15 @@ static GlitchCentral *_sharedGlitchCentralInstance;
 
 -(void)glitchAvatarData:(GlitchAvatarData *)avatarData failedWithError:(NSError *)error
 {
+    NSLog(@"Avatar Data Error: %@", error.description);
     [[GameManager sharedGameManager] runScene:GameSceneError];
 }
 
+-(void)glitchAvatarData:(GlitchAvatarData *)avatarData progress:(NSString *)progressMessage
+{
+    NSLog(@"Loading avatar data: %@", progressMessage);
+    [self sendPlayerDataProgress:progressMessage];
+}
 
 
 

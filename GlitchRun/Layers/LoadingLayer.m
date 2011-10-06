@@ -24,7 +24,20 @@
 #import "LoadingLayer.h"
 #import "Glitch.h"
 
+@interface LoadingLayer ()
+
+@property (assign, nonatomic) NSTimeInterval loadTime;
+@property (retain, nonatomic) CCLabelBMFont *loadingLabel;
+@property (assign, nonatomic) int progress;
+
+@end
+
+
 @implementation LoadingLayer
+
+@synthesize loadTime = _loadTime;
+@synthesize loadingLabel = _loadingLabel;
+@synthesize progress = _progress;
 
 -(id) init
 {
@@ -36,9 +49,14 @@
         
         NSString *fntFile = @"GlitchMain.fnt";
         
-        CCLabelBMFont *loadingLabel = [CCLabelBMFont labelWithString:@"Loading..."  fntFile:fntFile];
-        loadingLabel.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:loadingLabel];
+        self.loadingLabel = [CCLabelBMFont labelWithString:@"Loading"  fntFile:fntFile];
+        self.loadingLabel.position = ccp((screenSize.width - self.loadingLabel.contentSize.width)/2, screenSize.height/2);
+        self.loadingLabel.anchorPoint = ccp(0, 0);
+
+        [self addChild:self.loadingLabel];
+
+        [self scheduleUpdate];
+        self.loadTime = [NSDate timeIntervalSinceReferenceDate];
     }
 	
     return self;
@@ -46,9 +64,27 @@
 
 - (void) dealloc
 {
+    [_loadingLabel release];
+    _loadingLabel = nil;
+    
 	[super dealloc];
 }
 
+-(void) update:(ccTime)deltaTime
+{
+    [self updateProgress];
+}
 
+-(void)updateProgress
+{
+    NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+    double diff = now - self.loadTime;
+    //NSLog(@"Diff: %.3f", diff);
+    if (diff >= 0.3)
+    {
+        [self.loadingLabel setString:[NSString stringWithFormat:@"Loading%@", [@"........" substringToIndex:(self.progress++ % 6)]]];  
+        self.loadTime = now; 
+    }
+}
 
 @end
